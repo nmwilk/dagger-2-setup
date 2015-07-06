@@ -18,33 +18,29 @@ package nmw.dagger2setup;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
 public class HomeActivity extends FragmentActivity {
+    @Inject ActivityTitleController activityTitleController;
     @Inject LocationManager locationManager;
-    private HomeComponent component;
-
-    HomeComponent component() {
-        if (component == null) {
-            component = DaggerHomeComponent.builder()
-                    .applicationComponent(((DemoApplication) getApplication()).component())
-                    .activityModule(new ActivityModule(this))
-                    .build();
-        }
-        return component;
-    }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        component().inject(this);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, new HomeFragment())
-                    .commit();
-        }
+        setContentView(R.layout.activity_home);
 
+        final HomeComponent component = DaggerHomeComponent.builder()
+                .applicationComponent(((DemoApplication) getApplication()).component())
+                .activityModule(new ActivityModule(this))
+                .build();
+        component.inject(this);
+
+        final TextView msg = (TextView) findViewById(R.id.msg);
+
+        activityTitleController.setTitle("Home Activity");
         // TODO do something with the injected dependencies here!
+
     }
 }
