@@ -15,10 +15,20 @@
  */
 package nmw.dagger2setup;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
+import nmw.dagger2setup.model.Brand;
+import nmw.dagger2setup.model.Engine;
+import nmw.dagger2setup.model.Model;
+import nmw.dagger2setup.model.Vehicle;
 
-@PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, VehicleModule.class})
-public interface HomeComponent {
-    void inject(HomeActivity homeActivity);
+/**
+ * A module to wrap the Activity state and expose it to the graph.
+ */
+@Module
+public class VehicleModule {
+
+    @Provides @PerActivity Vehicle vehicle(final Engine engine) {
+        return new Vehicle(new Brand("Alfa Romeo"), new Model("159"), engine);
+    }
 }

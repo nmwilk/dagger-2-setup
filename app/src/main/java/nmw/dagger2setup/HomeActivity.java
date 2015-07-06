@@ -22,9 +22,12 @@ import android.widget.TextView;
 
 import javax.inject.Inject;
 
+import nmw.dagger2setup.model.Vehicle;
+
 public class HomeActivity extends FragmentActivity {
     @Inject ActivityTitleController activityTitleController;
     @Inject LocationManager locationManager;
+    @Inject Vehicle vehicle;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class HomeActivity extends FragmentActivity {
 
         activityTitleController.setTitle("Home Activity");
         // TODO do something with the injected dependencies here!
+        msg.setText(vehicle.toString());
 
     }
 }
